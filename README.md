@@ -32,6 +32,8 @@ Deploy `contracts/AgentSpendFirewall.py` on StudioNet, then paste its address in
 
 Current StudioNet deployment: `0x7D71F1078580e9aF0D39291d3D8195Bb08903F38` (verify `get_contract_version` before every write).
 
+Live dApp: https://agent-spend-firewall.pages.dev
+
 ## Source-bound evidence
 
 The decision source is not a mutable URL or model memory. It is the canonical principal policy plus the canonical payee invoice stored in contract state. Both are schema-checked, bounded, normalized and hashed before assessment. See [SPEC.md](SPEC.md) and [verification/TEST_RESOURCE_MANIFEST.json](verification/TEST_RESOURCE_MANIFEST.json).
