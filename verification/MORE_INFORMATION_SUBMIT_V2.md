@@ -1,5 +1,7 @@
 # Remediation response — not ready to resubmit yet
 
+Six user-signed lifecycle hashes for steward review: https://github.com/dearmore5382/AgentSpendFirewall/blob/main/verification/STEWARDS_SIX_TX_V2.md
+
 Latest audit: 43 finalized successful GenVM receipts verified; four additional forbidden role/terminal calls preserve the complete exposed graph. Local tests 21/21. The renewed bounded assessment of budget intent 2 again returned REVIEW_REQUIRED, without authorization or economic mutation. The strict release checker therefore still fails the missing budget-consumption conflict proof. See FINAL_AUDIT_STATUS_V2.md, EVIDENCE_INTEGRITY_V2.json and E2E_FULL_REPORT_V2.md. No all-pass claim is made.
 
 1. Invoice-level protection: one registered invoice permanently binds one whole-amount intent. A second nonce cannot create a second authorization. Consume checks and marks the invoice, preventing duplicate budget consumption. Partial payments are unsupported; REVIEW_REQUIRED retries the same intent.
