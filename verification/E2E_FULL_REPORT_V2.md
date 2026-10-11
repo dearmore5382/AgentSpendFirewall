@@ -1,6 +1,6 @@
 # AgentSpend Firewall — consolidated v2 live evidence
 
-Generated: 2026-10-11T02:55:34.502Z
+Generated: 2026-10-11T03:07:49.498Z
 
 Contract: [0xf9d938DA226CDC523c7c476a2A4d5e3895c2fE5d](https://explorer-studio.genlayer.com/address/0xf9d938DA226CDC523c7c476a2A4d5e3895c2fE5d)
 
@@ -194,3 +194,28 @@ Charter ID 3; Invoice ID 4; Intent ID 4.
 | revoke_charter | [0x1240edfbb72ddfdc8ccc8fb2e2f0d8c570854f84b98a7832ba751eb81153a6b5](https://explorer-studio.genlayer.com/tx/0x1240edfbb72ddfdc8ccc8fb2e2f0d8c570854f84b98a7832ba751eb81153a6b5) | FINALIZED (status 7) | "CHARTER_REVOKED" | 4 |
 
 Current authoritative state: charter **REVOKED**, spent **40**; intent **CONSUMED**; invoice consumed **true**; execution ticket payment_verified **false**. Successful assessment returned AUTHORIZED; consumption returned CONSUMED; revoke returned CHARTER_REVOKED. This demonstrates revoke after consumption, not revocation before consume. No payment is claimed. Budget conflict remains unresolved; user UI screenshots/video would additionally establish pending/finality/readback display and frontend origin.
+
+## Renewed bounded budget-conflict attempt
+
+[Full receipt and pre/post state](CONFLICT_COMPLETION_V2.json). Runner did not complete. Error: renewed bounded assessment B actual REVIEW_REQUIRED
+
+| Case | Transaction | GenVM return | Status | Full graph unchanged |
+| --- | --- | --- | --- | --- |
+| renewed bounded assessment B | [0x65baf3278c6d346812063b52f70452633633233fc4319cb39c5864928400193b](https://explorer-studio.genlayer.com/tx/0x65baf3278c6d346812063b52f70452633633233fc4319cb39c5864928400193b) | REVIEW_REQUIRED | FINALIZED | not applicable / inspect transition |
+
+Renewed request authorized one further bounded assessment of the same intent 2 with unchanged policy/invoice; result REVIEW_REQUIRED is retained. No replacement invoice, forced authorization or infinite retry. The exact two-AUTHORIZED-intents consumption-conflict case remains unverified live. Local mocked branch coverage does not close this gate.
+
+## Live complete-graph adversarial audit
+
+[Full receipt and pre/post state](COMPLETE_STATE_AUDIT_V2.json). Runner completed.
+
+| Case | Transaction | GenVM return | Status | Full graph unchanged |
+| --- | --- | --- | --- | --- |
+| wrong role consume | [0xfa9cb169cbc395ed1e3ae1daf14e621c1c612e1fe157fdbd05eb16bc7b5f3e16](https://explorer-studio.genlayer.com/tx/0xfa9cb169cbc395ed1e3ae1daf14e621c1c612e1fe157fdbd05eb16bc7b5f3e16) | AGENT_ONLY | FINALIZED | true |
+| wrong role revoke | [0xf0a3631e61b71f434186728e0925740752abae8d3a47cc91dc866491fb4aa699](https://explorer-studio.genlayer.com/tx/0xf0a3631e61b71f434186728e0925740752abae8d3a47cc91dc866491fb4aa699) | PRINCIPAL_ONLY | FINALIZED | true |
+| reassess terminal consumed | [0x9a7ee1f44c9a62332b5f503787c81e6ff73d91e29063fa2d21fd2b4b9f798779](https://explorer-studio.genlayer.com/tx/0x9a7ee1f44c9a62332b5f503787c81e6ff73d91e29063fa2d21fd2b4b9f798779) | INTENT_NOT_ASSESSABLE | FINALIZED | true |
+| double consume terminal | [0xa9992b4431c5be168c194059f19425467bf8eb2cd998f9a1bec5976a0b9957f4](https://explorer-studio.genlayer.com/tx/0xa9992b4431c5be168c194059f19425467bf8eb2cd998f9a1bec5976a0b9957f4) | AUTHORIZATION_NOT_ACTIVE | FINALIZED | true |
+
+## Latest verification scope
+
+Local production-contract regression: 21 passed (including six new complete-exposed-graph rejection checks); semantic classification mocked where stated. TypeScript/Vite production build passed; bundle-size warning only. [Receipt integrity summary](EVIDENCE_INTEGRITY_V2.json) checks finality, exact hash/contract, successful GenVM and quorum for all recorded hashes. Integrity PASS is not an all-scenarios-PASS or submission-readiness claim. No independent artifact/payment verification or external executor deployment is claimed.

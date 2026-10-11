@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-10-11T03:07:05.124Z",
+  "receipt_integrity_pass": true,
+  "finalized_successful_genvm_receipts": 43,
+  "full_graph_adversarial_cases": 4,
+  "budget_conflict_verified": false,
+  "renewed_uncertain_assessment_fail_closed": true,
+  "historical_failed_expectations_preserved": 3,
+  "latest_conflict_result": "REVIEW_REQUIRED",
+  "frontend_origin": "User-performed reported lifecycle with chain corroboration; agent did not observe signing prompts/intermediate UI states.",
+  "submission_ready": false
+}

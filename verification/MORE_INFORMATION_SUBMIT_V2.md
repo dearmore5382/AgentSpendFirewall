@@ -1,5 +1,7 @@
 # Remediation response — not ready to resubmit yet
 
+Latest audit: 43 finalized successful GenVM receipts verified; four additional forbidden role/terminal calls preserve the complete exposed graph. Local tests 21/21. The renewed bounded assessment of budget intent 2 again returned REVIEW_REQUIRED, without authorization or economic mutation. The strict release checker therefore still fails the missing budget-consumption conflict proof. See FINAL_AUDIT_STATUS_V2.md, EVIDENCE_INTEGRITY_V2.json and E2E_FULL_REPORT_V2.md. No all-pass claim is made.
+
 1. Invoice-level protection: one registered invoice permanently binds one whole-amount intent. A second nonce cannot create a second authorization. Consume checks and marks the invoice, preventing duplicate budget consumption. Partial payments are unsupported; REVIEW_REQUIRED retries the same intent.
 2. External enforcement: EXECUTOR_PROTOCOL_V2.md defines configured network/contract binding, successful finalized consume verification, ticket/record graph checks, durable invoice and authorization uniqueness constraints, an idempotent payment outbox, reconciliation and explicit revocation cutoff. CONSUMED/spent are not payment proof. No external executor deployment or token transfer is claimed.
 3. Source trust: invoice views and execution tickets explicitly expose PAYEE_ATTESTED_ONLY and payment_verified=false. Artifact digest is declared, not fetched/verified. Model classifies narrative purpose, not invoice truth.

@@ -1,5 +1,6 @@
 from pathlib import Path
 import importlib,json,sys,hashlib
+import pytest
 from unittest.mock import patch
 from gltest.direct import VMContext,create_address,deploy_contract
 ROOT=Path(__file__).resolve().parents[1];FILE=ROOT/'contracts'/'AgentSpendFirewall.py'
@@ -111,3 +112,23 @@ def test_ticket_binds_invoice_and_survives_later_revocation_without_payment_clai
  receipt=c.get_execution_receipt(tid)
  with vm.prank(p):sync(vm,c);assert c.revoke_charter(cid)=='CHARTER_REVOKED'
  assert c.get_execution_receipt(tid)==receipt and receipt['payment_verified'] is False
+
+@pytest.mark.parametrize('case',['unknown_ids','invalid_invoice_ref','invalid_digest','zero_amount','invalid_nonce','wrong_consumer'])
+def test_rejections_preserve_complete_exposed_graph(case):
+ vm,c,p,a=deploy();cid=setup(vm,c,p,a)
+ with vm.prank(a):sync(vm,c);iid=c.publish_invoice(cid,20,invoice());tid=c.request_intent(iid,'GRAPH-AUDIT')
+ def snapshot():return json.dumps({'counts':c.get_counts(),'charter':c.get_charter(cid),'invoice':c.get_invoice(iid),'intent':c.get_intent(tid),'ticket':c.get_execution_receipt(tid)},sort_keys=True)
+ before=snapshot()
+ with vm.prank(p if case=='wrong_consumer' else a):
+  sync(vm,c)
+  if case=='unknown_ids':
+   assert c.request_intent(999,'UNKNOWN')=='INVALID_INTENT'
+   assert c.assess_intent(999)=='INTENT_NOT_FOUND'
+   assert c.consume_authorization(999,'00'*32)=='INTENT_NOT_FOUND'
+   assert c.revoke_charter(999)=='CHARTER_NOT_FOUND'
+  elif case=='invalid_invoice_ref':assert c.publish_invoice(cid,20,invoice(artifact='22'*32,ref='WRONG'))=='INVALID_INVOICE'
+  elif case=='invalid_digest':assert c.publish_invoice(cid,20,invoice(artifact='xyz'))=='INVALID_INVOICE'
+  elif case=='zero_amount':assert c.publish_invoice(cid,0,invoice(artifact='22'*32))=='INVALID_AMOUNT'
+  elif case=='invalid_nonce':assert c.request_intent(iid,'bad nonce')=='INVALID_INTENT'
+  else:assert c.consume_authorization(tid,'00'*32)=='AGENT_ONLY'
+ assert snapshot()==before

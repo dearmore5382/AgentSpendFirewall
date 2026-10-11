@@ -1,12 +1,12 @@
 # Invoice-level single-use remediation
 
-Status: v2 deployed with exact source parity; production updated. Live anti-duplicate and role checks passed. Budget conflict remains blocked by REVIEW_REQUIRED after one bounded retry. Browser read-only CONSUMED state matches chain, but signing is blocked by missing injected wallet. Do not resubmit as fully verified yet. See E2E_FULL_REPORT_V2.md and PRODUCTION_BROWSER_V2.md. Existing v1 evidence is historical.
+Status: v2 deployed with exact source parity; production updated. Live anti-duplicate and role checks passed; supplementary complete-exposed-graph audit is documented in E2E_FULL_REPORT_V2.md. Budget intent B remains REVIEW_REQUIRED even after a renewed user-authorized bounded assessment. The user signed six lifecycle transactions with their main wallet; all finalized successful GenVM returns and terminal readbacks were independently verified. Frontend signing prompts/intermediate UI transitions were not independently recorded by the agent. Do not claim all release gates closed. Existing v1 evidence is historical.
 
 ## Requirement mapping
 
 | Steward requirement | Implementation | Verification boundary |
 | --- | --- | --- |
-| Different nonces allow duplicate invoice spend | One permanent invoice→intent binding, plus invoice consumed marker rechecked at assessment and consumption | Direct production-contract tests cover pending, authorized, denied, unclear and consumed; v2 live tests still required |
+| Different nonces allow duplicate invoice spend | One permanent invoice→intent binding, plus invoice consumed marker rechecked at assessment and consumption | Local tests cover pending, authorized, denied, unclear and consumed; v2 live pending/authorized/consumed and double-consume checks finalized |
 | Bounded partial payments or prevention | Partial payments explicitly unsupported; one whole-invoice intent only; no reservation release | New nonce never resets invoice; uncertain assessment retries the same intent |
 | Explain external executor enforcement | EXECUTOR_PROTOCOL_V2.md specifies finalized ticket, domain binding, graph validation, durable idempotency, failure/recovery and revocation cutoff | Reference protocol, no deployed payment executor or verified transfer claimed |
 | Separate payee attestations from independent facts | get_invoice and get_execution_receipt expose PAYEE_ATTESTED_ONLY and payment_verified=false; invoice view has artifact_digest_verified=false | No independently authenticated invoice/delivery proof is implemented or claimed |
