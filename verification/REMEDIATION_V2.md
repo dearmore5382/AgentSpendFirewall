@@ -1,6 +1,6 @@
 # Invoice-level single-use remediation
 
-Status: SOURCE IMPLEMENTED; replacement deployment and new live/frontend-wallet evidence required. Do not resubmit as fully verified yet. Existing v1 deployment/evidence is historical and does not prove these fixes.
+Status: v2 deployed with exact source parity; production updated. Live anti-duplicate and role checks passed. Budget conflict remains blocked by REVIEW_REQUIRED after one bounded retry. Browser read-only CONSUMED state matches chain, but signing is blocked by missing injected wallet. Do not resubmit as fully verified yet. See E2E_FULL_REPORT_V2.md and PRODUCTION_BROWSER_V2.md. Existing v1 evidence is historical.
 
 ## Requirement mapping
 

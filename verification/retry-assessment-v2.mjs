@@ -1,0 +1,14 @@
+import {createAccount,createClient} from 'genlayer-js';
+import {studionet} from 'genlayer-js/chains';
+import {TransactionStatus} from 'genlayer-js/types';
+import {existsSync,writeFileSync} from 'node:fs';
+const address='0xf9d938DA226CDC523c7c476a2A4d5e3895c2fE5d',id=Number(process.env.ASF_RETRY_INTENT_ID??0),file=new URL(id===0?'./ASSESSMENT_RETRY_V2.json':`./ASSESSMENT_RETRY_INTENT_${id}_V2.json`,import.meta.url);
+if(existsSync(file))throw Error('Inspect existing retry evidence; do not overwrite');
+const account=createAccount(process.env.ASF_PRINCIPAL_KEY),reader=createClient({chain:studionet}),writer=createClient({chain:studionet,account});
+const before=await reader.readContract({address,functionName:'get_intent',args:[id]});
+const read=fn=>reader.readContract({address,functionName:fn,args:[fn==='get_invoice'?Number(before.invoice_id):id]});
+const out={address,signer:account.address,intent_id:id,before,invoice_before:await read('get_invoice'),status:'PREPARED',reason:'One bounded retry of REVIEW_REQUIRED on the existing reserved intent; no new nonce or invoice.'};
+const save=()=>writeFileSync(file,JSON.stringify(out,null,2)+'\n');save();
+if(out.before.state!=='REVIEW_REQUIRED')throw Error('Not retryable');
+const response=await writer.writeContract({address,functionName:'assess_intent',args:[id],value:0n});out.hash=typeof response==='string'?response:response.txId;out.status='SUBMITTED';save();console.log(out.hash);
+await reader.waitForTransactionReceipt({hash:out.hash,status:TransactionStatus.FINALIZED,interval:5000,retries:240});out.status='FINALIZED';out.receipt=await reader.getTransaction({hash:out.hash});out.after=await read('get_intent');out.invoice_after=await read('get_invoice');save();console.log(out.after.state);if(out.after.state!=='AUTHORIZED')process.exitCode=2;
