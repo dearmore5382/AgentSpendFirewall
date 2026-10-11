@@ -1,6 +1,6 @@
 # AgentSpend Firewall — consolidated v2 live evidence
 
-Generated: 2026-10-11T01:47:47.099Z
+Generated: 2026-10-11T02:55:34.502Z
 
 Contract: [0xf9d938DA226CDC523c7c476a2A4d5e3895c2fE5d](https://explorer-studio.genlayer.com/address/0xf9d938DA226CDC523c7c476a2A4d5e3895c2fE5d)
 
@@ -173,3 +173,24 @@ Raw receipts, consensus votes, before/after counts and role addresses: [LIVE_RUN
 ```
 
 No actual token transfer, invoice delivery verification or independent invoice authentication is proved. Do not present this report as full compliance while open gates remain.
+
+## Six latest user-signed wallet transactions — 2026-10-11
+
+This supplements the earlier agent-browser blocker; the historical SDK evidence is not relabeled as frontend evidence. The human user signed the instructed lifecycle using their main wallet. All six hashes were extracted from explorer and independently read through the SDK (read-only, no new signature). The explorer screenshot does not itself record frontend prompts or intermediate UI readbacks, so those are not claimed as independently observed.
+
+Signer: 0xFf36b56CcA032C559e52e2A4F20c2C594B02Fe37. Same wallet is Principal, Agent and Payee in this demonstration; distinct-role attacks remain evidenced separately by the auxiliary-wallet suite.
+
+Charter ID 3; Invoice ID 4; Intent ID 4.
+
+[Full raw receipts and authoritative readbacks](USER_WALLET_LIFECYCLE_V2.json) · [User-supplied explorer screenshot](USER_WALLET_EXPLORER_V2.png). The screenshot captured revoke at ACCEPTED; subsequent verification confirmed FINALIZED.
+
+| Method | Transaction | Finality | GenVM return | Agree votes |
+| --- | --- | --- | --- | --- |
+| create_charter | [0x4eba605cfc84cf2bbca88efd152e56702cab640daaef1418b4145a4873ba11de](https://explorer-studio.genlayer.com/tx/0x4eba605cfc84cf2bbca88efd152e56702cab640daaef1418b4145a4873ba11de) | FINALIZED (status 7) | 3 | 3 |
+| publish_invoice | [0x692f3236d2c8164f74726a308e423cc8981f3b73730c04a18c7f319bc96cac0b](https://explorer-studio.genlayer.com/tx/0x692f3236d2c8164f74726a308e423cc8981f3b73730c04a18c7f319bc96cac0b) | FINALIZED (status 7) | 4 | 3 |
+| request_intent | [0x1c1e9f9c3d590b973abaa5c66a0813142dc233810799c4ebfa89eddaeae5a052](https://explorer-studio.genlayer.com/tx/0x1c1e9f9c3d590b973abaa5c66a0813142dc233810799c4ebfa89eddaeae5a052) | FINALIZED (status 7) | 4 | 3 |
+| assess_intent | [0xdadcae300f10a2fdeff02299294de083b86d0a270df9813dde0f4b003f424846](https://explorer-studio.genlayer.com/tx/0xdadcae300f10a2fdeff02299294de083b86d0a270df9813dde0f4b003f424846) | FINALIZED (status 7) | "AUTHORIZED" | 3 |
+| consume_authorization | [0x21432fb72b50879a44b0fe22cc7386f6e0466450305f899f756b6282b33d42b8](https://explorer-studio.genlayer.com/tx/0x21432fb72b50879a44b0fe22cc7386f6e0466450305f899f756b6282b33d42b8) | FINALIZED (status 7) | "CONSUMED" | 3 |
+| revoke_charter | [0x1240edfbb72ddfdc8ccc8fb2e2f0d8c570854f84b98a7832ba751eb81153a6b5](https://explorer-studio.genlayer.com/tx/0x1240edfbb72ddfdc8ccc8fb2e2f0d8c570854f84b98a7832ba751eb81153a6b5) | FINALIZED (status 7) | "CHARTER_REVOKED" | 4 |
+
+Current authoritative state: charter **REVOKED**, spent **40**; intent **CONSUMED**; invoice consumed **true**; execution ticket payment_verified **false**. Successful assessment returned AUTHORIZED; consumption returned CONSUMED; revoke returned CHARTER_REVOKED. This demonstrates revoke after consumption, not revocation before consume. No payment is claimed. Budget conflict remains unresolved; user UI screenshots/video would additionally establish pending/finality/readback display and frontend origin.

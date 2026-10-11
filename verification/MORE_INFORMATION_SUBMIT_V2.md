@@ -7,6 +7,8 @@
 
 ## Current verified progress (not a full-completion claim)
 
+Update: the user signed six additional main-wallet lifecycle calls: create charter 3, publish invoice 4, request intent 4, assess AUTHORIZED, consume CONSUMED, revoke CHARTER_REVOKED. All six independently verified FINALIZED with successful GenVM and at least three agree votes. Current readbacks: charter REVOKED/spent 40; intent CONSUMED; invoice consumed; payment_verified=false. Full hashes/receipts are in E2E_FULL_REPORT_V2.md and USER_WALLET_LIFECYCLE_V2.json. The same wallet fulfills all three roles in this demo. Frontend signing is user-performed; the explorer image alone does not record intermediate UI transitions. Budget conflict remains blocked. The paragraph below describes the earlier auxiliary-wallet checkpoint.
+
 v2 is deployed with byte-for-byte source parity. 32 transactions finalized with successful GenVM return and at least three agree votes; 46 assertions passed. Initial REVIEW_REQUIRED results are preserved (three historical failed expectations). Happy consumption, different-nonce invoice guards, wrong-role/digest/double-consume rejection, revocation-before-consume and irreversible consumed tickets were checked live. Budget conflict remains blocked because intent 2 stayed REVIEW_REQUIRED after one bounded retry. Production UI readback matches CONSUMED, but full browser signing remains blocked by no injected wallet.
 
 Consolidated report with every tx and receipt:

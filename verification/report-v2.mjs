@@ -1,4 +1,4 @@
-import {readFileSync,writeFileSync,readdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,readdirSync,existsSync} from 'node:fs';
 const dir=new URL('./',import.meta.url),run=JSON.parse(readFileSync(new URL('LIVE_RUN_V2.json',dir)));
 const retries=readdirSync(dir).filter(n=>/^ASSESSMENT_RETRY.*V2.json$/.test(n)).map(n=>({file:n,...JSON.parse(readFileSync(new URL(n,dir)))}));
 const rows=run.transactions.filter(t=>t.hash);
@@ -9,5 +9,13 @@ for(const t of retries)md+=`- Intent ${t.intent_id}: [${t.hash}](https://explore
 md+='\n## Authoritative assertions\n\n| Assertion | Result |\n| --- | --- |\n';
 for(const c of run.checks)md+=`| ${c.name} | ${c.pass?'PASS':'FAILED (preserved)'} |\n`;
 md+=`\n## Unfinished / blocked cases\n\n\`\`\`json\n${JSON.stringify({error:run.error??null,blocked_cases:run.blocked_cases??{},browser_signed:run.browser_signed},null,2)}\n\`\`\`\n\nNo actual token transfer, invoice delivery verification or independent invoice authentication is proved. Do not present this report as full compliance while open gates remain.\n`;
+const userFile=new URL('USER_WALLET_LIFECYCLE_V2.json',dir);
+if(existsSync(userFile)){
+ const u=JSON.parse(readFileSync(userFile));
+ md+='\n## Six latest user-signed wallet transactions — 2026-10-11\n\nThis supplements the earlier agent-browser blocker; the historical SDK evidence is not relabeled as frontend evidence. The human user signed the instructed lifecycle using their main wallet. All six hashes were extracted from explorer and independently read through the SDK (read-only, no new signature). The explorer screenshot does not itself record frontend prompts or intermediate UI readbacks, so those are not claimed as independently observed.\n\n';
+ md+=`Signer: ${u.signer}. Same wallet is Principal, Agent and Payee in this demonstration; distinct-role attacks remain evidenced separately by the auxiliary-wallet suite.\n\nCharter ID ${u.ids.charter}; Invoice ID ${u.ids.invoice}; Intent ID ${u.ids.intent}.\n\n[Full raw receipts and authoritative readbacks](USER_WALLET_LIFECYCLE_V2.json) · [User-supplied explorer screenshot](USER_WALLET_EXPLORER_V2.png). The screenshot captured revoke at ACCEPTED; subsequent verification confirmed FINALIZED.\n\n| Method | Transaction | Finality | GenVM return | Agree votes |\n| --- | --- | --- | --- | --- |\n`;
+ for(const t of u.transactions)md+=`| ${t.method} | [${t.hash}](https://explorer-studio.genlayer.com/tx/${t.hash}) | FINALIZED (status 7) | ${t.return_value} | ${t.agree} |\n`;
+ md+=`\nCurrent authoritative state: charter **${u.readbacks.charter.state}**, spent **${u.readbacks.charter.spent}**; intent **${u.readbacks.intent.state}**; invoice consumed **${u.readbacks.invoice.consumed}**; execution ticket payment_verified **${u.readbacks.ticket.payment_verified}**. Successful assessment returned AUTHORIZED; consumption returned CONSUMED; revoke returned CHARTER_REVOKED. This demonstrates revoke after consumption, not revocation before consume. No payment is claimed. Budget conflict remains unresolved; user UI screenshots/video would additionally establish pending/finality/readback display and frontend origin.\n`;
+}
 writeFileSync(new URL('E2E_FULL_REPORT_V2.md',dir),md);
 console.log(JSON.stringify({transactions:rows.length,retries:retries.length,finished:Boolean(run.finished)}));

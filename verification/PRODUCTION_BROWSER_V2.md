@@ -1,5 +1,9 @@
 # Production browser check — v2
 
+## Update: user-signed lifecycle
+
+The user subsequently supplied six main-wallet transaction proofs following the frontend instructions. Independently verified FINALIZED/SUCCESS returns: charter 3, invoice 4, intent 4, AUTHORIZED, CONSUMED, CHARTER_REVOKED. Current state is charter REVOKED/spent 40 and intent CONSUMED/invoice consumed true. See E2E_FULL_REPORT_V2.md and USER_WALLET_LIFECYCLE_V2.json. This is user-performed evidence, not signatures from the agent's connected browser. The explorer image confirms chain calls but does not independently show frontend signing prompts/intermediate UI transitions. The observation below remains historical.
+
 Observed on 2026-10-11 at https://agent-spend-firewall.pages.dev/ using the Codex in-app browser.
 
 - Deployed contract field: `0xf9d938DA226CDC523c7c476a2A4d5e3895c2fE5d`.
