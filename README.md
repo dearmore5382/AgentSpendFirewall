@@ -1,8 +1,10 @@
 # AgentSpend Firewall
 
+Current source: **v2 remediation, awaiting replacement deployment and fresh live/browser verification**. Historical v1 evidence below is superseded for submission-readiness claims. See [requirement mapping](verification/REMEDIATION_V2.md) and [external executor protocol](EXECUTOR_PROTOCOL_V2.md).
+
 AgentSpend Firewall is a GenLayer control plane for autonomous-wallet spending. A principal seals a bounded purpose policy; a designated payee publishes a canonical invoice; the agent requests a nonce-bound intent; GenLayer consensus classifies the invoice against the sealed policy; and the agent may consume the resulting authorization exactly once.
 
-The contract does **not** custody or transfer tokens. It produces and consumes an auditable authorization while enforcing roles, per-intent and lifetime limits, revocation, source binding, artifact replay protection and nonce replay protection.
+The contract does **not** custody, transfer tokens or verify payments. It consumes at most one whole-invoice authorization per registered invoice, regardless of nonce. Partial payments and invoice reservation release are not supported. `spent` is consumed authorization budget, not verified money spent. External executors must enforce the durable invoice/ticket idempotency protocol before any actual transfer.
 
 ## Why this needs an Intelligent Contract
 
@@ -30,13 +32,13 @@ npm run dev
 
 Deploy `contracts/AgentSpendFirewall.py` on StudioNet, then paste its address into the UI. Never commit private keys or API tokens.
 
-Current StudioNet deployment: `0x7D71F1078580e9aF0D39291d3D8195Bb08903F38` (verify `get_contract_version` before every write).
+Historical v1 StudioNet deployment: `0x7D71F1078580e9aF0D39291d3D8195Bb08903F38`. It contains the invoice replay flaw and must not be used as proof of v2 remediation. v2 address is pending; the new frontend refuses v1 writes.
 
 Live dApp: https://agent-spend-firewall.pages.dev
 
 ## Source-bound evidence
 
-The decision source is not a mutable URL or model memory. It is the canonical principal policy plus the canonical payee invoice stored in contract state. Both are schema-checked, bounded, normalized and hashed before assessment. See [SPEC.md](SPEC.md) and [verification/TEST_RESOURCE_MANIFEST.json](verification/TEST_RESOURCE_MANIFEST.json).
+The decision input is the canonical principal policy plus a PAYEE_ATTESTED_ONLY invoice declaration stored in contract state. Both are schema-checked, bounded, normalized and hashed. Sender authentication is not independent verification of invoice facts, delivery, artifact bytes or payment. The artifact hash is a payee-declared replay identifier, not a fetched verified artifact. Principal trusts the designated payee; payee collusion or newly fabricated identities cannot be detected by narrative classification alone. See [SPEC.md](SPEC.md) and [verification/TEST_RESOURCE_MANIFEST.json](verification/TEST_RESOURCE_MANIFEST.json).
 
 ## Evidence status
 

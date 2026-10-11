@@ -13,6 +13,14 @@ def test_sdk_object_and_json_string_readbacks_are_both_supported():
     assert 'Unexpected contract readback shape' in SOURCE
 
 def test_each_consequential_write_has_a_chain_state_expectation():
-    assert 'assess_intent:"AUTHORIZED|DENIED|REVIEW_REQUIRED"' in SOURCE
+    assert 'assess_intent:"AUTHORIZED|DENIED|REVIEW_REQUIRED|REVOKED|STALE_BUDGET"' in SOURCE
     assert 'consume_authorization:"CONSUMED"' in SOURCE
     assert 'revoke_charter:"REVOKED"' in SOURCE
+
+def test_v2_identity_wallet_change_hash_shape_and_invoice_readback_guards():
+    # Static integration guards only; not evidence of browser signing.
+    assert 'v.version!==2' in SOURCE and 'invoice-single-use-agent-spend-v2' in SOURCE
+    assert 'eth_accounts' in SOURCE and 'Wallet account changed' in SOURCE
+    assert 'typeof response==="string"?response:' in SOURCE
+    assert 'get_execution_receipt' in SOURCE and 'inv.consumed!==true' in SOURCE
+    assert 'PAYEE_ATTESTED_ONLY' in SOURCE and 'CONSUMED is not payment confirmation' in SOURCE

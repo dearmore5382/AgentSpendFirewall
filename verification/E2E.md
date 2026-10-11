@@ -1,5 +1,7 @@
 # StudioNet lifecycle evidence
 
+HISTORICAL V1 ONLY. This run predates invoice-level single-use protection and does not establish v2 remediation or a signed production-browser lifecycle. See REMEDIATION_V2.md for current release blockers.
+
 Run completed: 2026-10-08. Contract: [`0x7D71F1078580e9aF0D39291d3D8195Bb08903F38`](https://explorer-studio.genlayer.com/address/0x7D71F1078580e9aF0D39291d3D8195Bb08903F38).
 
 Roles were signed by two auxiliary wallets: Principal `0x686269f09C21aac57f39662855FA51b9758698b2`; Agent + Payee `0x48CCA889CF67A8420D82341e2fa9532Dc36Ba5c2`. The deployer signed no workflow transaction.

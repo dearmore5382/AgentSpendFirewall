@@ -1,5 +1,7 @@
 # Proof obligation and threat model
 
+Version 2 adds permanent one-invoice→one-intent binding and consumed markers. Partial payments are not supported. PAYEE_ATTESTED_ONLY is the evidence level; independent invoice truth, artifact bytes, delivery and payments are unverified. `spent` denotes consumed authorization budget. See EXECUTOR_PROTOCOL_V2.md for the mandatory external idempotency, domain binding, recovery and revocation cutoff. New live/browser release gates are recorded in verification/REMEDIATION_V2.md.
+
 ## Proof obligation
 
 An intent may reach `CONSUMED` only if all of the following remain true at consumption time:
@@ -10,15 +12,16 @@ An intent may reach `CONSUMED` only if all of the following remain true at consu
 4. the invoice amount is positive, within the per-intent maximum, and fits the remaining lifetime budget;
 5. the artifact hash and `(charter, nonce)` have not been used before;
 6. consensus classified the bounded canonical invoice as one of the principal's declared purposes with a sufficient confidence boundary;
-7. the supplied authorization digest exactly matches the charter, intent, agent, payee, asset, amount and nonce;
+7. the supplied authorization digest exactly matches the v2 domain, charter, invoice ID, stored invoice packet digest, intent, agent, payee, asset, amount and nonce;
 8. the authorization has not already been consumed.
+9. the invoice is permanently bound to this exact intent and its invoice-level consumed marker is false; successful consume sets that marker atomically with budget accounting.
 
 ## Trusted sources
 
 | Source | Authentication | Binding |
 |---|---|---|
 | Purpose taxonomy | transaction sender becomes Principal | canonical JSON + SHA-256 stored on-chain |
-| Invoice facts | only named Payee may publish | charter reference + canonical JSON + packet SHA-256 + unique artifact SHA-256 |
+| Invoice declaration, not independently verified facts | only named Payee may publish | charter reference + canonical JSON + packet SHA-256 + payee-declared replay identifier |
 | Spend intent | only named Agent may request | invoice ID + charter-scoped unique nonce |
 
 No web search, mutable URL, user-supplied authority claim or model memory is treated as evidence.

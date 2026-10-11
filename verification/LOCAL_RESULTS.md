@@ -1,5 +1,7 @@
 # Local verification
 
+Historical v1 results. Current v2 local results are in LOCAL_RESULTS_V2.md; fresh v2 live/browser verification remains pending.
+
 Run date: 2026-10-07
 
 Command: `python -m pytest -q`
