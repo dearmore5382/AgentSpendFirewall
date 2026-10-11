@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 const run=JSON.parse(readFileSync(new URL("./LIVE_RUN_V3.json",import.meta.url)));
 const dep=JSON.parse(readFileSync(new URL("./DEPLOYMENT_V3.json",import.meta.url)));
+const legacy=readFileSync(new URL("./STEWARDS_SIX_TX_V2.md",import.meta.url),"utf8").replace("# Six user-signed frontend lifecycle transactions","## Historical frontend wallet-signing evidence (v2)");
 const x=h=>`https://explorer-studio.genlayer.com/tx/${h}`;
 const rows=run.transactions.map(t=>`| ${t.label} | [${t.hash}](${x(t.hash)}) | ${t.status} |`).join("\n");
 const md=`# AgentSpend Firewall — consolidated v3 E2E evidence
@@ -43,6 +44,10 @@ ${rows}
 4. Run \`node verification/check-v3-evidence.mjs\` and \`python -m pytest -q\`.
 
 The main/deployer wallet only deployed the contract. All automated lifecycle transactions above were signed by the two auxiliary role wallets. A steward may independently connect any wallet, but contract role checks determine which actions it may execute.
+
+The following v2 transactions demonstrate the historical browser-wallet signing path only. They are **not proof of v3 contract behavior**; that is established by the 31 fresh v3 transactions above.
+
+${legacy}
 `;
 writeFileSync(new URL("./E2E_FULL_REPORT_V3.md",import.meta.url),md);
 console.log(`wrote ${run.transactions.length} linked transactions`);

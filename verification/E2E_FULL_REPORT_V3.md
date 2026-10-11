@@ -68,3 +68,16 @@ Generated: 2026-10-11T04:02:44.527Z
 4. Run `node verification/check-v3-evidence.mjs` and `python -m pytest -q`.
 
 The main/deployer wallet only deployed the contract. All automated lifecycle transactions above were signed by the two auxiliary role wallets. A steward may independently connect any wallet, but contract role checks determine which actions it may execute.
+
+## Historical frontend wallet-signing evidence (v2)
+
+These six transactions were signed through the frontend by wallet `0xFf36b56CcA032C559e52e2A4F20c2C594B02Fe37` against the historical v2 contract `0xf9d938DA226CDC523c7c476a2A4d5e3895c2fE5d`. They demonstrate the browser-wallet lifecycle only. They are **not presented as proof of v3 contract behavior**; current v3 behavior is proven by the 31 transactions above.
+
+1. Create charter — [`0x4eba605c…73ba11de`](https://explorer-studio.genlayer.com/tx/0x4eba605cfc84cf2bbca88efd152e56702cab640daaef1418b4145a4873ba11de)
+2. Publish invoice — [`0x692f3236…c96cac0b`](https://explorer-studio.genlayer.com/tx/0x692f3236d2c8164f74726a308e423cc8981f3b73730c04a18c7f319bc96cac0b)
+3. Request intent — [`0x1c1e9f9c…eae5a052`](https://explorer-studio.genlayer.com/tx/0x1c1e9f9c3d590b973abaa5c66a0813142dc233810799c4ebfa89eddaeae5a052)
+4. Assess → `AUTHORIZED` — [`0xdadcae30…3f424846`](https://explorer-studio.genlayer.com/tx/0xdadcae300f10a2fdeff02299294de083b86d0a270df9813dde0f4b003f424846)
+5. Consume → `CONSUMED` — [`0x21432fb7…b33d42b8`](https://explorer-studio.genlayer.com/tx/0x21432fb72b50879a44b0fe22cc7386f6e0466450305f899f756b6282b33d42b8)
+6. Revoke → `CHARTER_REVOKED` — [`0x1240edfb…1153a6b5`](https://explorer-studio.genlayer.com/tx/0x1240edfbb72ddfdc8ccc8fb2e2f0d8c570854f84b98a7832ba751eb81153a6b5)
+
+All six are FINALIZED with successful GenVM returns and at least three validator agree votes. Authoritative readback recorded charter `REVOKED` with spent `40`, intent `CONSUMED`, invoice `consumed: true`, and execution ticket `payment_verified: false`. Detailed capture: [STEWARDS_SIX_TX_V2.md](STEWARDS_SIX_TX_V2.md).
