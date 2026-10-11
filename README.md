@@ -1,6 +1,6 @@
 # AgentSpend Firewall
 
-Current source: **v2 remediation, awaiting replacement deployment and fresh live/browser verification**. Historical v1 evidence below is superseded for submission-readiness claims. See [requirement mapping](verification/REMEDIATION_V2.md) and [external executor protocol](EXECUTOR_PROTOCOL_V2.md).
+Current deployment: **v3 source-verified and live-tested on StudioNet**. The diagnostic classifier separates semantic uncertainty from malformed/failed model output, while preserving single-use invoice and budget enforcement. See [consolidated v3 evidence](verification/E2E_FULL_REPORT_V3.md) and [external executor protocol](EXECUTOR_PROTOCOL_V2.md).
 
 AgentSpend Firewall is a GenLayer control plane for autonomous-wallet spending. A principal seals a bounded purpose policy; a designated payee publishes a canonical invoice; the agent requests a nonce-bound intent; GenLayer consensus classifies the invoice against the sealed policy; and the agent may consume the resulting authorization exactly once.
 
@@ -32,7 +32,7 @@ npm run dev
 
 Deploy `contracts/AgentSpendFirewall.py` on StudioNet, then paste its address into the UI. Never commit private keys or API tokens.
 
-Historical v1 StudioNet deployment: `0x7D71F1078580e9aF0D39291d3D8195Bb08903F38`. It contains the invoice replay flaw and must not be used as proof of v2 remediation. v2 address is pending; the new frontend refuses v1 writes.
+Current v3 StudioNet deployment: `0xb13E965e06Bf563748A32f0f4ae8FE1D1b6E17d3`. Historical deployments are retained only as provenance; the frontend refuses writes unless the exact v3 identity/schema matches.
 
 Live dApp: https://agent-spend-firewall.pages.dev
 

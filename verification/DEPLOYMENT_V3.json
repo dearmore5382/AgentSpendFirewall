@@ -1,0 +1,21 @@
+{
+  "status": "VERIFIED_SOURCE_IDENTITY",
+  "contract_address": "0xb13E965e06Bf563748A32f0f4ae8FE1D1b6E17d3",
+  "network": "GenLayer StudioNet",
+  "source_rpc": "gen_getContractCode",
+  "encoding": "base64",
+  "source_equal": true,
+  "local_source_sha256": "16b177946f6692904fa6ba548d0091b92d6a067943c954c4640ddee22d7803b1",
+  "deployed_source_sha256": "16b177946f6692904fa6ba548d0091b92d6a067943c954c4640ddee22d7803b1",
+  "identity": {
+    "name": "AgentSpendFirewall",
+    "schema": "diagnostic-single-use-agent-spend-v3",
+    "version": 3
+  },
+  "initial_counts": {
+    "charter_count": 0,
+    "intent_count": 0,
+    "invoice_count": 0
+  },
+  "verified_at": "2026-10-11T03:32:55.860Z"
+}

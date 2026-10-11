@@ -17,9 +17,9 @@ def test_each_consequential_write_has_a_chain_state_expectation():
     assert 'consume_authorization:"CONSUMED"' in SOURCE
     assert 'revoke_charter:"REVOKED"' in SOURCE
 
-def test_v2_identity_wallet_change_hash_shape_and_invoice_readback_guards():
+def test_v3_identity_wallet_change_hash_shape_and_invoice_readback_guards():
     # Static integration guards only; not evidence of browser signing.
-    assert 'v.version!==2' in SOURCE and 'invoice-single-use-agent-spend-v2' in SOURCE
+    assert 'v.version!==3' in SOURCE and 'diagnostic-single-use-agent-spend-v3' in SOURCE
     assert 'eth_accounts' in SOURCE and 'Wallet account changed' in SOURCE
     assert 'typeof response==="string"?response:' in SOURCE
     assert 'get_execution_receipt' in SOURCE and 'inv.consumed!==true' in SOURCE
