@@ -16,6 +16,8 @@ Generated: 2026-10-11T04:02:44.527Z
 
 ## Requirement coverage
 
+Exact mapping to every item in the second steward request: [SECOND_REVIEW_RESPONSE_V3.md](SECOND_REVIEW_RESPONSE_V3.md).
+
 1. Happy path: charter → payee-attested invoice → single intent → validator classification → authorization → one-time consumption.
 2. Failure and authorization: wrong publisher/requester/consumer/revoker, wrong authorization digest, terminal-state reassessment and double-consume all reject without unintended counter, budget, or charter mutation.
 3. Replay protection: one invoice remains bound to one intent across pending, authorized, and consumed states; a different nonce cannot reopen it.
